@@ -30,7 +30,7 @@ class Config
     }
 
     /**
-     * 添加配置文件的路径
+     * 添加配置文件的路径 子目录也会加进来
      * @param $directory
      * @return bool
      */
@@ -41,7 +41,11 @@ class Config
             foreach ($fileList as $fileName) {
                 if (!in_array($fileName, array('.', '..'))) {
                     $filePath = $directory . DIRECTORY_SEPARATOR . $fileName;
-                    $this->addFile($filePath);
+                    if (is_dir($filePath)) {
+                        return $this->addDirectory($filePath);
+                    } else {
+                        $this->addFile($filePath);
+                    }
                 }
             }
         }
