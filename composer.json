@@ -1,6 +1,6 @@
 {
     "name": "dcrphp/config",
-    "description": "配置中心",
+    "description": "配置文件解析类，目前只支持php配置",
     "authors": [
         {
             "name": "HuanJun Huang"

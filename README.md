@@ -1,7 +1,7 @@
 # DcrPHP/Config配置类
 
 ## 1、安装
-　　composer install dcrphp/confog
+　　composer install dcrphp/config
 
 ## 2、初始化
 ```
