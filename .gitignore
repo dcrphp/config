@@ -1,0 +1,10 @@
+/.idea
+/.vagrant
+/document
+/vendor
+/composer.lock
+env
+*ErrorFiles*
+u.php
+Thumbs.db
+/example

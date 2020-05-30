@@ -1,0 +1,18 @@
+{
+    "name": "dcrphp/config",
+    "description": "配置中心",
+    "authors": [
+        {
+            "name": "HuanJun Huang"
+        }
+    ],
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "DcrPHP\\Config\\": "src"
+        }
+    },
+    "require": {
+        "php": "^7.0"
+    }
+}
