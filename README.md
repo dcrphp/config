@@ -19,3 +19,6 @@
 　　$clsConfig->get('app.debug'); //获取app文件下的debug配置  
 　　$clsConfig->get('my.email'); //获取自定义配置
 ```    
+
+## 4、扩展
+　　请在src/Driver/目录下以Php.php为例加类，比如想加实别ini，添加Ini.php,调用时setDriver('ini')即可
