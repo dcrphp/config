@@ -1,84 +1,31 @@
 <?php
 declare(strict_types=1);
 
+
 namespace DcrPHP\Config;
 
-use DcrPHP\Config\Driver\Php;
-use DcrPHP\Config\Driver\Ini;
-use DcrPHP\Config\Driver\Xml;
-use DcrPHP\Config\Driver\Json;
-use DcrPHP\Config\Driver\Yml;
-use Noodlehaus\Config as NConfig;
 
-class Config
+class Config extends ConfigInfo
 {
-    private $config = array(); //配置详情
-    private $files = array(); //配置文件列表
-    private $driverClass; //实例化的驱动类
 
     /**
-     * 添加配置文件的路径
-     * @param $filePath
-     * @return bool
+     * Config constructor.
+     * @param $path 配置的文件或目录
+     * @param string $driver
+     * @throws \Exception
      */
-    public function addFile($filePath): bool
+    public function __construct($path, $driver = 'php')
     {
-        if (file_exists($filePath)) {
-            $this->files[] = $filePath;
+        if (!file_exists($path)) {
+            throw new \Exception('没有找到文件或目录');
         }
-        return true;
-    }
-
-    /**
-     * 添加配置文件的路径 子目录也会加进来
-     * @param $directory
-     * @return bool
-     */
-    public function addDirectory($directory): bool
-    {
-        if (file_exists($directory)) {
-            $fileList = scandir($directory);
-            foreach ($fileList as $fileName) {
-                if (!in_array($fileName, array('.', '..'))) {
-                    $filePath = $directory . DIRECTORY_SEPARATOR . $fileName;
-                    if (is_dir($filePath)) {
-                        return $this->addDirectory($filePath);
-                    } else {
-                        $this->addFile($filePath);
-                    }
-                }
-            }
+        if (is_dir($path)) {
+            $this->addDirectory($path);
+        } else {
+            $this->addFile($path);
         }
-        return true;
-    }
-
-    /**
-     * 这里用来设置driver 用的hassankhan/config 可以用很多格式的配置文件，所以这里只判断存在不存在 后面扩展驱动类在这里写
-     * @param $driverName
-     * @return bool
-     */
-    public function setDriver($driverName): bool
-    {
-        $this->driverName = $driverName;
-        $driverName = ucfirst($driverName);
-        $className = "DcrPHP\\Config\\Driver\\{$driverName}";
-        if (!class_exists($className)) {
-            throw new \Exception('驱动类不支持');
-        }
-        $clsDriver = new $className;
-        $this->driverClass = $clsDriver;
-        return true;
-    }
-
-    /**
-     * 通过文件名得到配置名
-     * @param $filePath
-     * @return string
-     */
-    public function getAssertName($filePath): string
-    {
-        $configType = pathinfo($filePath, PATHINFO_FILENAME);
-        return $configType;
+        $this->setDriver($driver);
+        $this->init();
     }
 
     /**
@@ -134,6 +81,9 @@ class Config
         return $value == 'not config' ? '' : $value;
     }
 
+    /**
+     * 初始化
+     */
     public function init()
     {
         foreach ($this->files as $filePath) {
