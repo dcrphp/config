@@ -10,22 +10,76 @@ class Config extends ConfigInfo
 
     /**
      * Config constructor.
-     * @param $path 配置的文件或目录
+     * @param string $path 配置的文件或目录
      * @param string $driver
      * @throws \Exception
      */
-    public function __construct($path, $driver = 'php')
+    public function __construct($path = '', $driver = 'php')
     {
-        if (!file_exists($path)) {
-            throw new \Exception('没有找到文件或目录');
-        }
-        if (is_dir($path)) {
-            $this->addDirectory($path);
-        } else {
-            $this->addFile($path);
+        if ($path) {
+            if (!file_exists($path)) {
+                throw new \Exception('没有找到文件或目录');
+            }
+            if (is_dir($path)) {
+                $this->addDirectory($path);
+            } else {
+                $this->addFile($path);
+            }
         }
         $this->setDriver($driver);
         $this->init();
+    }
+
+    /**
+     * 修改配置 如 改app.php下的name则为 set('app.name','abc');
+     * @param $name
+     * @param $value
+     */
+    public function set($name, $value)
+    {
+        $configSplit = explode('.', $name);
+        if (1 == count($configSplit)) {
+            $this->config[$name] = $value;
+        } else {
+            return $this->setByDot($this->config, $name, $value);
+        }
+    }
+
+    /**
+     * 设置.分隔的配置 比如setByDot($config,'app.name','value')
+     * @param array $data
+     * @param $name
+     * @param $value
+     * @return array|mixed
+     */
+    private function setByDot(array &$data, $name, $value)
+    {
+        if ($name === null) {
+            return $data = $value;
+        }
+
+        $keys = explode('.', $name);
+        while (count($keys) > 1) {
+            $name = array_shift($keys);
+            if (!isset($data[$name]) || !is_array($data[$name])) {
+                $data[$name] = [];
+            }
+            $data = &$data[$name];
+        }
+        $data[array_shift($keys)] = $value;
+        return $data;
+    }
+
+    /**
+     * 通过文件或目录的配置来获取配置
+     * @param $path
+     * @param $key
+     * @throws \Exception
+     */
+    public static function getByFileOrDirectory($path, $key)
+    {
+        $clsConfig = new self($path);
+        return $clsConfig->get($key);
     }
 
     /**
@@ -33,7 +87,7 @@ class Config extends ConfigInfo
      * @param $configType
      * @param $config
      */
-    public function set($configType, $config)
+    public function setItem($configType, $config)
     {
         $this->config[$configType] = $config;
         //dd($this);
@@ -90,7 +144,7 @@ class Config extends ConfigInfo
             $this->driverClass->setFilePath($filePath);
             $result = $this->driverClass->parse();
             $configType = $this->getAssertName($filePath);
-            $this->set($configType, $result);
+            $this->setItem($configType, $result);
         }
     }
 }

@@ -15,6 +15,7 @@ class ConfigInfo
     protected $config = array(); //配置详情
     protected $files = array(); //配置文件列表
     protected $driverClass; //实例化的驱动类
+    protected $driverName;
 
     /**
      * 添加配置文件的路径
@@ -56,6 +57,7 @@ class ConfigInfo
      * 这里用来设置driver 用的hassankhan/config 可以用很多格式的配置文件，所以这里只判断存在不存在 后面扩展驱动类在这里写
      * @param $driverName
      * @return bool
+     * @throws \Exception
      */
     public function setDriver($driverName): bool
     {
@@ -77,7 +79,6 @@ class ConfigInfo
      */
     public function getAssertName($filePath): string
     {
-        $configType = pathinfo($filePath, PATHINFO_FILENAME);
-        return $configType;
+        return pathinfo($filePath, PATHINFO_FILENAME);
     }
 }

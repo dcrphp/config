@@ -22,3 +22,10 @@
 
 ## 4、扩展
 　　请在src/Driver/目录下以Php.php为例加类，比如想加实别ini，添加Ini.php,调用时setDriver('ini')即可
+
+## 5、说明
+　　配置读取的以文件名为item名，比如app.php里的配置会读取成:  
+```
+　　$config['app']['default_timezone'] = 'PRC';
+　　$config['app']['debug'] = 1;
+``` 
