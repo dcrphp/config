@@ -30,14 +30,18 @@ try {
     print_r(ConfigFactory::fromFile(__DIR__ . '\config\app.php', 'app.session_life_time'));
     echo "\r\n";
 
+    echo 'item5:';
+    print_r(ConfigFactory::fromFile(__DIR__ . '\config', 'app.session_life_time'));
+    echo "\r\n";
+
     //设置某个配置
     //配置前
-    echo 'item5:';
+    echo 'item6:';
     print_r($clsConfig->get('cache.memcache.host'));
     echo "\r\n";
     $clsConfig->set('cache.memcache.host', 'memcache-host');
     //配置后
-    echo 'item6:';
+    echo 'item7:';
     print_r($clsConfig->get('cache.memcache.host'));
 } catch (Exception $e) {
 }
