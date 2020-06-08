@@ -34,6 +34,7 @@ class Config extends ConfigInfo
      * 修改配置 如 改app.php下的name则为 set('app.name','abc');
      * @param $name
      * @param $value
+     * @return array|mixed
      */
     public function set($name, $value)
     {
@@ -68,18 +69,6 @@ class Config extends ConfigInfo
         }
         $data[array_shift($keys)] = $value;
         return $data;
-    }
-
-    /**
-     * 通过文件或目录的配置来获取配置
-     * @param $path
-     * @param $key
-     * @throws \Exception
-     */
-    public static function getByFileOrDirectory($path, $key)
-    {
-        $clsConfig = new self($path);
-        return $clsConfig->get($key);
     }
 
     /**
