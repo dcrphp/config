@@ -27,7 +27,7 @@ try {
 
     //通过文件或目录直接获取配置
     echo 'item4:';
-    print_r(ConfigFactory::getByFileOrDirectory(__DIR__ . '\config\app.php', 'app.session_life_time'));
+    print_r(ConfigFactory::fromFile(__DIR__ . '\config\app.php', 'app.session_life_time'));
     echo "\r\n";
 
     //设置某个配置

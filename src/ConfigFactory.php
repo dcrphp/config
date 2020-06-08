@@ -14,7 +14,7 @@ class ConfigFactory
      * @return
      * @throws \Exception
      */
-    public static function getByFileOrDirectory($path, $key)
+    public static function fromFile($path, $key = '')
     {
         $clsConfig = new Config($path);
         return $clsConfig->get($key);
