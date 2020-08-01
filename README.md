@@ -7,7 +7,9 @@
 ```
 　　$clsConfig = new Config();  
 　　$clsConfig->addDirectory(__DIR__ . '\config');  
-　　//$clsConfig->addFile(__DIR__ . '\config\app.php');  
+　　//$clsConfig->addFile(__DIR__ . '\config\app.php'); 
+　　//$clsConfig = new Config(__DIR__ . '\config'); 
+　　//$clsConfig = new Config(__DIR__ . '\config\app.php'); 
 　　$clsConfig->setDriver('php');//解析php格式的  
 　　$clsConfig->set('my', array('email'=>'junqing124@126.com'));
 　　$clsConfig->init();
