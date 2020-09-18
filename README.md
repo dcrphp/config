@@ -31,3 +31,7 @@
 　　$config['app']['default_timezone'] = 'PRC';
 　　$config['app']['debug'] = 1;
 ``` 
+
+## 6、更新
+1.0.3-alpha1(20200918)
+　　1、只读配置目录的文件，不再读取目录

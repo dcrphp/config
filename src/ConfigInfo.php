@@ -42,9 +42,8 @@ class ConfigInfo
             foreach ($fileList as $fileName) {
                 if (!in_array($fileName, array('.', '..'))) {
                     $filePath = $directory . DIRECTORY_SEPARATOR . $fileName;
-                    if (is_dir($filePath)) {
-                        return $this->addDirectory($filePath);
-                    } else {
+                    //只读取文件 不读取目录
+                    if (is_file($filePath)) {
                         $this->addFile($filePath);
                     }
                 }
