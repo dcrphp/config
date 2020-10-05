@@ -1,0 +1,18 @@
+language: php
+
+php:
+  - '7.4'
+
+os:
+  - linux
+
+branches:
+  only:
+    - master
+
+install:
+  - composer install --prefer-dist --optimize-autoloader --quiet
+  - composer require --dev squizlabs/php_codesniffer
+
+script:
+  - php vendor/squizlabs/php_codesniffer/bin/phpcs -n -p --ignore=*/vendor/*,*/config/*,*/resource/* --standard=PSR12 --extensions=php --encoding=utf-8 -w -s .
